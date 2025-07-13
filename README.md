@@ -125,6 +125,10 @@ Start the Streamlit app:
 ```sh
 streamlit run app.py
 ```
+or
+```sh
+python -m streamlit run app.py
+```
 
 ---
 
