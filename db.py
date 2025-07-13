@@ -4,11 +4,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
 import os
 
-
-
-
-
-
 # Connessione al DB
 def connect_db(dialect, username, password, host, dbname):
     try:
