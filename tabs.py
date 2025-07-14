@@ -20,8 +20,8 @@ def create_tab_medie_stagione():
         'reb', 'dreb', 'oreb', 'stl', 'blk', 'blka','tov', 'fgm', 'fga', 'fgp', 'tpm',
         'tpa', 'tpp', 'ftm', 'fta', 'ftp', 'pf', 'plus_minus'
     ]
-    stat = st.selectbox("Statistica Ordine", stats)
-    AorD = st.selectbox("Ordine", ["DESC", "ASC"])
+    stat = st.selectbox("Statistic to order by", stats)
+    AorD = st.selectbox("Order", ["DESC", "ASC"])
     gp = st.slider("Min GP", 0, 82)
 
     query = f"""
@@ -94,13 +94,13 @@ def create_tab_giocatore():
     ]
 
     player_list = get_all_players()
-    query = st.text_input("Inserisci parte del nome giocatore")
+    query = st.text_input("Enter part of the player name")
     filtered_players = [p for p in player_list if query.lower() in p.lower()] if query else []
 
     if filtered_players:
-        player_name = st.selectbox("Seleziona giocatore corrispondente:", filtered_players)
+        player_name = st.selectbox("Select player:", filtered_players)
     else:
-        st.info("Nessun giocatore trovato")
+        st.info("No players found")
         return
 
     df_all = pd.DataFrame()
@@ -158,7 +158,7 @@ def create_tab_giocatore():
         stats_to_avg = ["GP", "PDK", "PTS", "AST", "REB", "STL", "BLK"]
         avg_values = df_all[stats_to_avg].mean()
 
-        st.markdown("#### Media nelle 7 stagioni più recenti")
+        st.markdown("#### Mean in the last 7 seasons")
         cols = st.columns(len(stats_to_avg)+2)
         for i, stat in enumerate(stats_to_avg):
             cols[i].metric(stat, f"{avg_values[stat]:.2f}")
@@ -174,11 +174,11 @@ def create_tab_giocatore():
         cols[8].metric(label="trend", value=f"{(weighted_pdk - avg_values['PDK']):.2f}", delta=f"{icon}", delta_color=color)
 
     stats = ["GP", "PDK", "PTS", "AST", "REB", "STL", "BLK"]
-    selected = st.multiselect("Seleziona statistiche da visualizzare", stats, default=stats)
+    selected = st.multiselect("Select statistics to view", stats, default=stats)
 
     if selected:
         df_plot = df_all[["SEASON"] + selected].sort_values("SEASON")
-        df_melted = df_plot.melt(id_vars="SEASON", var_name="Statistica", value_name="Valore")
-        fig = px.line(df_melted, x="SEASON", y="Valore", color="Statistica", markers=True, title=f"Andamento Statistiche: {player_name}")
+        df_melted = df_plot.melt(id_vars="SEASON", var_name="Statistic", value_name="Value")
+        fig = px.line(df_melted, x="SEASON", y="Value", color="Statistic", markers=True, title=f"Statistical trend: {player_name}")
         fig.update_layout(title_x=0.5, template="plotly_dark")
         st.plotly_chart(fig, use_container_width=True)
