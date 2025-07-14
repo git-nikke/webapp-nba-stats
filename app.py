@@ -17,7 +17,7 @@ except Exception as e:
 
 if st.session_state['authentication_status']:
 
-    st.sidebar.write(f"Benvenuto *{st.session_state['name']}*!")
+    st.sidebar.write(f"Welcome *{st.session_state['name']}*!")
     authenticator.logout(key="Logout", location="sidebar")
 
     col1, col2 = st.columns([3, 1])
@@ -28,13 +28,13 @@ if st.session_state['authentication_status']:
         st.image("images/nbalogo.png")
 
     if check_connection():
-        tab_medie_stagione, tab_giocatore = st.tabs(["Medie Stagione", "Giocatore Singolo"])
+        tab_medie_stagione, tab_giocatore = st.tabs(["Season mean", "Single player"])
         with tab_medie_stagione:
             create_tab_medie_stagione()
         with tab_giocatore:
             create_tab_giocatore()
 
 elif st.session_state['authentication_status'] is False:
-    st.error("Username o password errati.")
+    st.error("Wrong username or password.")
 else:
-    st.info("Inserisci le credenziali per accedere.")
+    st.info("insert credentials to log in.")
