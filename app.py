@@ -37,4 +37,4 @@ if st.session_state['authentication_status']:
 elif st.session_state['authentication_status'] is False:
     st.error("Wrong username or password.")
 else:
-    st.info("insert credentials to log in.")
+    st.info("Insert credentials to log in.")
